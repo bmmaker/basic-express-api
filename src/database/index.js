@@ -4,11 +4,13 @@ import mysql from 'mysql';
 // MySQL 데이터베이스 연결 설정
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: 'localhost',
+  host: process.env.MYSQL_HOST,
   user: 'root',
-  password: '1234',
-  database: 'test',
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   debug: false,
 });
 
-export default pool;
+console.log('데이터베이스에 연결되었습니다.');
+
+export { pool };
