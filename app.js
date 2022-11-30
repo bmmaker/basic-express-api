@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 
 // static 폴더 설정
 app.use('/public', serveStatic('public'));
-app.use('/upload', serveStatic('upload'));
+app.use('/uploads', serveStatic('uploads'));
 
 // cookie-parser 설정
 app.use(cookieParser());
@@ -162,73 +162,73 @@ router.route('/api/product').get((req, res) => {
   }
 });
 
-// 로그인
-router.route('/api/login').post((req, res) => {
-  console.log('/api/login 호출됨');
+// // 로그인
+// router.route('/api/login').post((req, res) => {
+//   console.log('/api/login 호출됨');
 
-  const { id, password } = req.body;
+//   const { id, password } = req.body;
 
-  const inputId = id || req.query.id;
-  const inputPassword = password || req.query.password;
+//   const inputId = id || req.query.id;
+//   const inputPassword = password || req.query.password;
 
-  if (req.session.user) {
-    console.log('이미 로그인되어 상품 페이지로 이동합니다.');
-    res.redirect('/public/product.html');
-  } else {
-    // 세션 저장
-    req.session.user = {
-      id: inputId,
-      name: '소녀시대',
-      authorized: true,
-    };
-    res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
-    res.write(`<h1>로그인 성공</h1>`);
-    res.write(`id: ${inputId}, password: ${inputPassword}</p>`);
-    res.write(`<br><br><a href='/api/product'>상품페이지로 이동하기</a>`);
-    res.end();
-  }
-});
+//   if (req.session.user) {
+//     console.log('이미 로그인되어 상품 페이지로 이동합니다.');
+//     res.redirect('/public/product.html');
+//   } else {
+//     // 세션 저장
+//     req.session.user = {
+//       id: inputId,
+//       name: '소녀시대',
+//       authorized: true,
+//     };
+//     res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+//     res.write(`<h1>로그인 성공</h1>`);
+//     res.write(`id: ${inputId}, password: ${inputPassword}</p>`);
+//     res.write(`<br><br><a href='/api/product'>상품페이지로 이동하기</a>`);
+//     res.end();
+//   }
+// });
 
-// 로그아웃
-router.route('/api/logout').get((req, res) => {
-  console.log('/api/logout 호출됨');
+// // 로그아웃
+// router.route('/api/logout').get((req, res) => {
+//   console.log('/api/logout 호출됨');
 
-  if (req.session.user) {
-    // 로그인된 상태
-    console.log('로그아웃합니다.');
-    req.session.destroy((err) => {
-      if (err) throw err;
+//   if (req.session.user) {
+//     // 로그인된 상태
+//     console.log('로그아웃합니다.');
+//     req.session.destroy((err) => {
+//       if (err) throw err;
 
-      console.log('세션을 삭제하고 로그아웃되었습니다.');
-      res.redirect('../login.html');
-    });
-  } else {
-    // 로그인 안 된 상태
-    console.log('아직 로그인되어 있지 않습니다.');
-    res.redirect('/public/login.html');
-  }
-});
+//       console.log('세션을 삭제하고 로그아웃되었습니다.');
+//       res.redirect('../login.html');
+//     });
+//   } else {
+//     // 로그인 안 된 상태
+//     console.log('아직 로그인되어 있지 않습니다.');
+//     res.redirect('/public/login.html');
+//   }
+// });
 
-router.route('/api/showCookie').get((req, res) => {
-  console.log('/api/showCookie 호출됨');
-  res.send(req.cookies);
-});
+// router.route('/api/showCookie').get((req, res) => {
+//   console.log('/api/showCookie 호출됨');
+//   res.send(req.cookies);
+// });
 
-router.route('/api/setCookie').get((req, res) => {
-  console.log('/api/setCookie 호출됨');
+// router.route('/api/setCookie').get((req, res) => {
+//   console.log('/api/setCookie 호출됨');
 
-  res.cookie('user', {
-    id: 'mike',
-    name: '소녀시대',
-    authorized: true,
-  });
+//   res.cookie('user', {
+//     id: 'mike',
+//     name: '소녀시대',
+//     authorized: true,
+//   });
 
-  res.redirect('/api/showCookie');
-});
+//   res.redirect('/api/showCookie');
+// });
 
 // 로그인 처리 함수
-router.route('/process/login').post(function (req, res) {
-  console.log('/process/login 호출됨.');
+router.route('/api/login').post(function (req, res) {
+  console.log('/api/login 호출됨.');
 
   // 요청 파라미터 확인
   var paramId = req.body.id || req.query.id;
@@ -262,14 +262,14 @@ router.route('/process/login').post(function (req, res) {
         res.write('<h1>로그인 성공</h1>');
         res.write('<div><p>사용자 아이디 : ' + paramId + '</p></div>');
         res.write('<div><p>사용자 이름 : ' + username + '</p></div>');
-        res.write("<br><br><a href='/public/login2.html'>다시 로그인하기</a>");
+        res.write("<br><br><a href='/public/login.html'>다시 로그인하기</a>");
         res.end();
       } else {
         // 조회된 레코드가 없는 경우 실패 응답 전송
         res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
         res.write('<h1>로그인  실패</h1>');
         res.write('<div><p>아이디와 패스워드를 다시 확인하십시오.</p></div>');
-        res.write("<br><br><a href='/public/login2.html'>다시 로그인하기</a>");
+        res.write("<br><br><a href='/public/login.html'>다시 로그인하기</a>");
         res.end();
       }
     });
@@ -283,8 +283,8 @@ router.route('/process/login').post(function (req, res) {
 });
 
 // 사용자 추가 라우팅 함수
-router.route('/process/adduser').post(function (req, res) {
-  console.log('/process/adduser 호출됨.');
+router.route('/api/adduser').post(function (req, res) {
+  console.log('/api/adduser 호출됨.');
 
   var paramId = req.body.id || req.query.id;
   var paramPassword = req.body.password || req.query.password;
@@ -326,9 +326,9 @@ router.route('/process/adduser').post(function (req, res) {
         if (addedUser) {
           console.dir(addedUser);
 
-          console.log('inserted ' + result.affectedRows + ' rows');
+          console.log('inserted ' + addedUser.affectedRows + ' rows');
 
-          var insertId = result.insertId;
+          var insertId = addedUser.insertId;
           console.log('추가한 레코드의 아이디 : ' + insertId);
 
           res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
@@ -454,20 +454,20 @@ var addUser = function (id, name, age, password, callback) {
 
 app.use('/', router);
 
-// 오류 핸들러 A
-// app.all('*', (req, res) => {
-//   res.status(404).send('<h1>ERROR - 페이지를 찾을 수 없습니다.</h1>');
-// });
-
-// 오류 핸들러 B
-const errorHandler = expressErrorHandler({
+// 404 에러 페이지 처리
+var errorHandler = expressErrorHandler({
   static: {
-    404: '/public/404.html',
+    404: './public/404.html',
   },
 });
 
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
+
+// 오류 핸들러
+// app.all('*', (req, res) => {
+//   res.status(404).send('<h1>ERROR - 페이지를 찾을 수 없습니다.</h1>');
+// });
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('익스프레스 서버를 시작했습니다.' + app.get('port'));
