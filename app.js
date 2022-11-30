@@ -1,7 +1,6 @@
 // Express 기본 모듈
 import express from 'express';
 import http from 'http';
-import path from 'path';
 
 // Express 미들웨어
 import bodyParser from 'body-parser';
