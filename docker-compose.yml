@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    ports:
+      - 3306:3306
+    volumes:
+      - ./../.db/mysql/data:/var/lib/mysql
+      - ./../.db/mysql/conf:/etc/mysql/conf.d
+      - ./../.db/mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_ROOT_PASSWORD: '1234'
+      MYSQL_DATABASE: test
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: '1234'
+volumes:
+  msdata:
