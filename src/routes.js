@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { uploadRouter } from './midlewares/upload.js';
-import { usersRouter } from './users.js';
+import { usersRouter } from './components/users/users.route.js';
 import { itemsRouter } from './items.js';
 
 const router = Router();

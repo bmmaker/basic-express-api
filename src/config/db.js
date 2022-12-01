@@ -1,8 +1,12 @@
 // MySQL 데이터베이스를 사용할 수 있는 mysql 모듈 불러오기
-import mysql from 'mysql';
+import mysql from 'mysql2';
+const dotenv = require('dotenv');
+dotenv.config();
+
+const env = process.env;
 
 // MySQL 데이터베이스 연결 설정
-const pool = mysql.createPool({
+const db = mysql.createPool({
   connectionLimit: 10,
   host: process.env.MYSQL_HOST,
   user: 'root',
@@ -13,4 +17,4 @@ const pool = mysql.createPool({
 
 console.log('데이터베이스에 연결되었습니다.');
 
-export { pool };
+export { db };
